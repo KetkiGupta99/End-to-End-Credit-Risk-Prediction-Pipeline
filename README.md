@@ -48,9 +48,7 @@ Experience Logic: A person cannot have more years of experience than their actua
 
 Step 3: Distribution Normalization
 
-To prevent extreme high-income earners from stretching the scale of the feature space (which makes it harder for models to split features smoothly), I applied a logarithmic transformation:
-
-$$\text{Person Income\_log} = \log(1 + x)$$
+To prevent extreme high-income earners from stretching the scale of the feature space (which makes it harder for models to split features smoothly), I applied a logarithmic transformation.
 
 This successfully pulled the extreme right-hand tail of the distribution back toward the center, converting a highly skewed curve into a symmetrical, bell-shaped distribution. I then dropped the original Person Income column to avoid multicollinearity.
 
@@ -102,46 +100,21 @@ Class 1 (Default) F1-Score: $78\%$ — The harmonic mean of Precision and Recall
 
 The test set results yielded the following distribution:
 
-Metric
+## Confusion Matrix Business Interpretation
 
-Target Classification
+| Metric | Target Classification | Sample Count | Business Translation |
+|----------|----------------------|-------------:|----------------------|
+| **True Negatives (TN)** | Actual Safe → Predicted Safe | **6,542** | Good customers approved, generating interest income. |
+| **True Positives (TP)** | Actual Default → Predicted Default | **1,570** | High-risk defaults caught, preventing financial loss. |
+| **False Positives (FP)** | Actual Safe → Predicted Default | **458** | Opportunity loss; safe clients turned away. |
+| **False Negatives (FN)** | Actual Default → Predicted Safe | **430** | **Highest risk.** Unsafe loans approved, resulting in direct capital loss. |
 
-Sample Count
-
-Business Translation
-
-True Negatives (TN)
-
-Actual Safe $\rightarrow$ Predicted Safe
-
-$6,542$
-
-Good customers approved, generating interest income.
-
-True Positives (TP)
-
-Actual Default $\rightarrow$ Predicted Default
-
-$1,570$
-
-High-risk defaults caught, preventing financial loss.
-
-False Positives (FP)
-
-Actual Safe $\rightarrow$ Predicted Default
-
-$458$
-
-Opportunity loss; safe clients turned away.
-
-False Negatives (FN)
-
-Actual Default $\rightarrow$ Predicted Safe
-
-$430$
-
-Highest risk. Unsafe loans approved; direct capital loss.
-
+### Key Takeaways
+- **True Negatives (6,542)** represent profitable lending decisions where trustworthy customers were correctly approved.
+- **True Positives (1,570)** indicate successful identification of high-risk borrowers, helping reduce default-related losses.
+- **False Positives (458)** reflect missed business opportunities, as creditworthy customers were incorrectly rejected.
+- **False Negatives (430)** are the most costly errors because risky borrowers were mistakenly approved, leading to potential financial losses.
+  
 🔍 Explainability & Feature Importances
 
 The model automatically calculates importance weights based on how much each feature decreases the overall Gini Impurity. The sum of all features equals $1.0$ (or $100\%$).
@@ -154,14 +127,6 @@ Rank  | Feature               | Importance Weight
 2     | Loan interest Rate    | 16.3%
 3     | Loan percentage       | 15.6%
 
-
-Business Interpretation
-
-Prior Credit Behavior (Previous_loan): This is the strongest indicator of risk, aligning with traditional financial underwriting principles where past repayment history dictates future credit reliability.
-
-Interest Rates & Debt Ratios: High interest rates and high loan percentages (debt-to-income) represent severe structural risks. The model identified that excessive payments strain household cash flow, triggering higher default rates.
-
-Fairness Assessment: The demographic feature Gender returned an importance weight of $0.0\%$, mathematically validating that our model is ethically compliant and does not discriminate based on gender.
 
 💡 Key Learnings & Takeaways
 

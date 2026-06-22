@@ -114,19 +114,6 @@ The test set results yielded the following distribution:
 - **True Positives (1,570)** indicate successful identification of high-risk borrowers, helping reduce default-related losses.
 - **False Positives (458)** reflect missed business opportunities, as creditworthy customers were incorrectly rejected.
 - **False Negatives (430)** are the most costly errors because risky borrowers were mistakenly approved, leading to potential financial losses.
-  
-🔍 Explainability & Feature Importances
-
-The model automatically calculates importance weights based on how much each feature decreases the overall Gini Impurity. The sum of all features equals $1.0$ (or $100\%$).
-
-Our model discovered that three features drive over $60\%$ of the predictive weight:
-
-Rank  | Feature               | Importance Weight
---------------------------------------------------
-1     | Previous_loan         | 29.4%
-2     | Loan interest Rate    | 16.3%
-3     | Loan percentage       | 15.6%
-
 
 💡 Key Learnings & Takeaways
 
